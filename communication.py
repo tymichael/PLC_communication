@@ -51,8 +51,8 @@ class ModbusTcp:
     """
 
     def __init__(self, plc_ip, plc_port, device_address):
-        self.address = (plc_ip, plc_port)
-        self.device_address = device_address
+        self.address = (plc_ip, int(plc_port))
+        self.device_address = int(device_address)
         self.connect()
 
     def connect(self):
@@ -78,7 +78,7 @@ class ModbusTcp:
         self.s.send(buffer)
 
     def read_holding_registers(self, register_address, query_length):
-        self.__send_packet(READ_ANALOG_OUTPUT_STATUS, register_address, query_length)
+        self.__send_packet(READ_ANALOG_OUTPUT_STATUS, int(register_address), query_length)
         result = self.__read_packet()
         cmd = struct.unpack('B', result[7:8])
         if cmd[0] == READ_ANALOG_OUTPUT_STATUS_EXCEPTION_RESPONSE:

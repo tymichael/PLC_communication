@@ -57,12 +57,10 @@ class ModbusTcp:
 
     def connect(self):
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        result = self.s.connect(self.address)
-        if result:
-            print ("CONNECT ERROR!")
-            return -1
-        else:
-            return 0
+        try:
+            self.s.connect(self.address)
+        except ConnectionRefusedError:
+            print("Connect Fail")
 
     def disconnect(self):
         self.s.close()
@@ -76,7 +74,6 @@ class ModbusTcp:
                                       , function_code,                    register_address
                                       , query_length)
         self.s.send(buffer)
-
     def read_holding_registers(self, register_address, query_length):
         self.__send_packet(READ_ANALOG_OUTPUT_STATUS, int(register_address), query_length)
         result = self.__read_packet()

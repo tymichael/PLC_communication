@@ -8,7 +8,6 @@ Modify  : MOD.19072515 by Michael 新增類別ModbusTcp
 """
 import socket
 import struct
-import time
 
 MODBUS_TCP_MAX_DATA=255
 
